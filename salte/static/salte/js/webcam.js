@@ -114,9 +114,8 @@ function gotStream(stream)
     );
 
     clearphoto();
-  console.log('outside the function')
 	myButton = document.getElementById('buttonSnap');
-	if (myButton) {console.log('in the buttonSnap'); myButton.disabled = false;}
+	if (myButton) { myButton.disabled = false;}
 	myButton = document.getElementById('buttonStop');
 	if (myButton) {myButton.disabled = false;}
 }

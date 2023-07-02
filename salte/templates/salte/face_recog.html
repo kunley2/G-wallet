@@ -1,3 +1,12 @@
+{% extends 'salte/base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'salte/css/webcam.css' %}">
+{% endblock css %}
+
+
+{% block content %}
 <div id="id" class="camera">
     <video id="video"></video>
     <input type="button" id="buttonSnap" value="Take screenshot" disabled="disabled" onclick="snapshot()" />
@@ -12,3 +21,9 @@
         <img id="photo" alt="The screen capture will appear in this box." />
     </div>
 </div> 
+{% endblock content %}
+
+
+{% block scripts %}
+<script src="{% static "salte/js/webcam.js" %}"></script>
+{% endblock scripts %}

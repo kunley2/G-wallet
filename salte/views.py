@@ -8,4 +8,4 @@ def index(request):
 
 def face(request):
 
-    return render(request,'salte/base.html')
+    return render(request,'salte/face_recog.html')
