@@ -5,3 +5,7 @@ def index(request):
 
     return render(request, 'salte/index.html')
         
+
+def face(request):
+
+    return render(request,'salte/base.html')
