@@ -3,6 +3,10 @@ var video = document.getElementById('video');
 var canvas = document.getElementById('canvas');
 var videoStream = null;
 var preLog = document.getElementById('preLog');
+let photo = null
+let streaming = false;
+const width = 320; // We will scale the photo width to this
+let height = 0
 
 function log(text)
 {
@@ -110,14 +114,16 @@ function gotStream(stream)
     );
 
     clearphoto();
+  console.log('outside the function')
 	myButton = document.getElementById('buttonSnap');
-	if (myButton) {myButton.disabled = false;}
+	if (myButton) {console.log('in the buttonSnap'); myButton.disabled = false;}
 	myButton = document.getElementById('buttonStop');
 	if (myButton) {myButton.disabled = false;}
 }
 
 function start()
 {
+  photo = document.getElementById("photo")
 	if ((typeof window === 'undefined') || (typeof navigator === 'undefined')) log('This page needs a Web browser with the objects window.* and navigator.*!');
 	else if (!(video && canvas)) log('HTML context error!');
 	else
@@ -132,4 +138,4 @@ function start()
 	}
 }
 
-start();
+// start();

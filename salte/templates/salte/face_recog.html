@@ -1,9 +1,14 @@
 <div id="id" class="camera">
     <video id="video"></video>
-    <input type="button" id="buttonSnap" value="Take screenshot" onclick="snapshot()" />
+    <input type="button" id="buttonSnap" value="Take screenshot" disabled="disabled" onclick="snapshot()" />
     
     <input type="button" id="buttonStart" value="Start" onclick="start()" />
-    <input type="button" id="buttonStop" value="Stop" onclick="stop()" />
+    <input type="button" id="buttonStop" value="Stop" disabled="disabled" onclick="stop()" />
     
     <canvas id="canvas"></canvas>
+
+    <br>
+    <div class="output">
+        <img id="photo" alt="The screen capture will appear in this box." />
+    </div>
 </div> 
