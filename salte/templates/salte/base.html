@@ -10,13 +10,13 @@
     <title>{% block title %}Document {% endblock title %}</title>
 </head>
 <body>
-    <div class="container">
+    {% block content%}
 
-        {% block content%}
+    {% endblock content%}
+    <!-- <div class="container">
 
-        {% endblock content%}
     </div>
-    
+     -->
 </body>
 
 {% block scripts %}
