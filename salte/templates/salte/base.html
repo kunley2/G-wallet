@@ -7,18 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block css %}
     {% endblock css%}
-    <title>{% block title %}Document {% endblock title %}</title>
+    <title>{% block title %} {% endblock %} | salte</title>
 </head>
 <body>
-    <div class="container">
+    <div class="loader">
+ 
+        {% block content %}
 
-        {% block content%}
-
-        {% endblock content%}
+        {% endblock content %}
     </div>
     
-</body>
 
-{% block scripts %}
-{% endblock scripts %}
+
+    {% block scripts %}
+    {% endblock scripts %}
+    
+</body>
 </html>
