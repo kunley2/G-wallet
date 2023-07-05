@@ -4,7 +4,7 @@ window.onload = function() {
   var loader = document.getElementById('loader');
   var blinders = document.querySelectorAll('.blinder');
   var landingPage = document.getElementById('landing-page');
-    var timeline = gsap.timeline();
+  var timeline = gsap.timeline();
 
     timeline
       .fromTo(loader, { opacity: 1 }, { opacity: 0, duration: 2, delay: 1 })
