@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-t&dllwrln9+ylvgsd=gzjdsix8*r755w7-dvg&6an^ksz*8dl5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -116,7 +116,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATIC_DIR = os.path.join(BASE_DIR, 'salte/static')
 STATIC_URL = 'static/'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
