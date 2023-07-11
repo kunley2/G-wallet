@@ -14,11 +14,10 @@ face_recognition_model = dlib.face_recognition_model_v1(os.path.join(STATIC_DIR,
 tolerance = 0.58
 
 
-def get_face_encoding(image_path):
+def get_face_encoding(image):
     
     """ this is used to get the face encoding and names for the different images placed in a folder with the faces name as folder name"""
     encoding = []
-    image = cv2.imread(os.path.join(STATIC_DIR,f"salte/images/{image_path}"))
     # image = cv2.resize(image,(700,700))
     rgb = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
     gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
