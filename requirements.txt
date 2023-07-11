@@ -1,9 +1,10 @@
 asgiref==3.7.2
 cmake==3.26.4
 Django==4.2.2
-# dlib==19.22.1
+dlib==19.22.1
 numpy==1.24.3
 opencv-python==4.7.0.72
+Pillow==10.0.0
 python-dotenv==1.0.0
 sqlparse==0.4.4
 typing_extensions==4.6.3

@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
+*
 body {
   margin: 0;
   padding: 0;
@@ -23,6 +23,7 @@ body {
 .loader-content {
   opacity: 1;
   font-size: 40px;
+  font-weight: bold;
   color: white;
   letter-spacing: 4px;
   animation: dissolve 2s linear forwards;
@@ -185,3 +186,38 @@ nav ul li a:hover::after {
   width: 50%;
 
 }
+
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  margin-left: 100px;
+  z-index: 9996;
+  
+  
+  
+  
+}
+
+.hero-text {
+  color: white;
+  margin: 0;
+  font-size: 50px;
+  transform: translateY(-100%);
+  
+}
+
+
+.tagline {
+ 
+  white-space: nowrap;
+  font-size: small;
+  color: white;
+  overflow: hidden;
+  margin-bottom: 140px;
+  margin-top: 15px;
+  opacity: 0;
+}
+

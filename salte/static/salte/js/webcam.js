@@ -15,13 +15,15 @@ function log(text)
 }
 
 function snapshot()
-{
+{   
+    let img_file = document.getElementById('id_photo')
     if (width && height) {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         canvas.getContext('2d').drawImage(video, 0, 0);
         var data = canvas.toDataURL('image/png');
         photo.setAttribute('src', data);
+        img_file.setAttribute('value', data);
   } else {
     clearphoto();
   }
