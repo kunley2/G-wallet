@@ -1,12 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponseRedirect
 from .face_recog import *
 import numpy as np
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.files.temp import NamedTemporaryFile
 from django.contrib.auth import login,authenticate,logout
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
+from django.urls import reverse
 from urllib.request import urlopen
 from .forms import *
 from .models import Account
@@ -53,6 +56,34 @@ def register_account(request):
     # context = {'form':form}
 
     return render(request,'salte/face_recog.html')
+
+def login_with_password(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request=request,data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username,password=password)
+            if user is not None:
+                login(request,user)
+                messages.success(request, f"you are now logged in as {username}")
+                return HttpResponseRedirect(reverse('index'))
+            else:
+                messages.error(request,"Invalid username or password.")
+                return HttpResponseRedirect(reverse('login'))
+        else:
+            for error in list(form.errors.values()):
+                messages.error(request,error)
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('index'))
+    form = AuthenticationForm()
+    context = {'form':form}
+    return render(request,'salte/user/login.html',context)
+
+def logout_user(request):
+    logout(request)
+    messages.success(request,'You have successfully logout')
+    return HttpResponseRedirect(reverse("index"))
 
 def face_validation(request):
     image1 = cv2.imread(os.path.join(STATIC_DIR,f"salte/images/kunle2.jpg"))
