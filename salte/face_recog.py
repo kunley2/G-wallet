@@ -4,6 +4,14 @@ import os
 import numpy as np
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.mail import send_mail,BadHeaderError,EmailMessage
+import uuid
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes,force_str 
+from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
+from django.template.loader import render_to_string
+
 
 
 STATIC_DIR = settings.STATIC_DIR
@@ -35,3 +43,58 @@ def get_face_encoding(image):
 def face_verification(array1,array2):
     value = np.linalg.norm(array1 - array2) <= tolerance
     return value
+
+
+
+def send_forgot_password_email(user,token):
+    subject = 'Reset Password Link'
+    # message = f'Hello, click on the link to reset your password {token}'
+    # email_from = settings.EMAIL_HOST_USER
+    recipient_list = [user.email]
+    email_template_name = 'salte/user/reset_password.txt'
+    parameters = {
+        'email':user.email,
+        'domain':'127.0.0.1:8000',
+        'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': token,
+        'protocol':'http'
+
+    }
+    email = render_to_string(email_template_name,parameters,)
+    # send_mail(subject,message,email_from,recipient_list)
+    send_mail(subject,email,"",recipient_list)
+    return True
+
+
+def activate_account_email(request,user,token):
+    subject = 'Activate your account'
+    # message = f'Hello, click on the link to reset your password {token}'
+    # email_from = settings.EMAIL_HOST_USER
+    recipient_list = [user.email]
+    email_template_name = 'salte/user/reset_password.txt'
+    parameters = {
+        'email':user.email,
+        'domain':get_current_site(request).domain,
+        'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': token,
+        'protocol':'http' if request.is_secure() else 'https'
+
+    }
+    email = render_to_string(email_template_name,parameters,)
+    # send_mail(subject,message,email_from,recipient_list)
+    send_mail(subject,email,"",recipient_list)
+    return True
+
+def verify_email_token(request,uidb64,token):
+    uid = force_str(urlsafe_base64_decode(uidb64))
+    user = User.objects.filter(pk=uid).first()
+    print(user)
+    if user != []:
+        verified_token = default_token_generator.check_token(user,token)
+        print(verified_token)
+        if verified_token:
+            # user.is_active = True
+            # user.save()
+            messages.success(request,'Email successfully verified')
+        return
+

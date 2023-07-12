@@ -7,9 +7,11 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.files.temp import NamedTemporaryFile
 from django.contrib.auth import login,authenticate,logout
+from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.urls import reverse
+from django.db.models import Q,Sum,Count
 from urllib.request import urlopen
 from .forms import *
 from .models import Account
@@ -30,6 +32,8 @@ def register_user(request):
         form = RegisterUserForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request,'account created successfully')
+            return HttpResponseRedirect(reverse('index'))
         else:
             for error in list(form.errors.values()):
                 messages.error(request,error)
@@ -37,6 +41,9 @@ def register_user(request):
     form = RegisterUserForm()
     context = {'form':form}
     return render(request,'salte/user/signup.html',context)
+
+def activate_email(request,uidb64,token):
+    return HttpResponseRedirect(reverse('create_account'))
 
 def register_account(request):
     
@@ -84,6 +91,27 @@ def logout_user(request):
     logout(request)
     messages.success(request,'You have successfully logout')
     return HttpResponseRedirect(reverse("index"))
+
+def forgot_password(request):
+    if request.method == 'POST':
+        user_name = request.POST.get('user_name')
+        user = User.objects.filter(Q(user_name=user_name)|Q(email=user_name)).first()
+        print(user)
+        if not user:
+            messages.error(request,'No User Found')
+            return HttpResponseRedirect(reverse('login'))
+        # token = str(uuid.uuid4())
+        token = default_token_generator.make_token(user)
+        value = send_forgot_password_email(user,token)
+        if value:
+            messages.success(request,'Email sent')
+        return HttpResponseRedirect(reverse('login'))
+
+    return render(request)
+
+def reset_password(request):
+
+    return render(request)
 
 def face_validation(request):
     image1 = cv2.imread(os.path.join(STATIC_DIR,f"salte/images/kunle2.jpg"))
