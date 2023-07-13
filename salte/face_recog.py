@@ -85,16 +85,7 @@ def activate_account_email(request,user,token):
     send_mail(subject,email,"",recipient_list)
     return True
 
-def verify_email_token(request,uidb64,token):
+def verify_email_token(uidb64):
     uid = force_str(urlsafe_base64_decode(uidb64))
-    user = User.objects.filter(pk=uid).first()
-    print(user)
-    if user != []:
-        verified_token = default_token_generator.check_token(user,token)
-        print(verified_token)
-        if verified_token:
-            # user.is_active = True
-            # user.save()
-            messages.success(request,'Email successfully verified')
-        return
+    return uid
 

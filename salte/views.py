@@ -42,8 +42,25 @@ def register_user(request):
     context = {'form':form}
     return render(request,'salte/user/signup.html',context)
 
+
 def activate_email(request,uidb64,token):
+    id = verify_email_token(uidb64)
+    try:
+        user = User.objects.get(pk=id)
+    except:
+        user = None
+    print(user)
+    if user is not None and default_token_generator.check_token(user,token):
+        verified_token = default_token_generator.check_token(user,token)
+        print(verified_token)
+        # user.is_active = True
+        # user.save()
+        messages.success(request,'Email successfully verified')
+    else:
+        # messages.error(request,'unabale to verify user')
+        return HttpResponseRedirect(reverse(index))
     return HttpResponseRedirect(reverse('create_account'))
+
 
 def register_account(request):
     
@@ -94,7 +111,7 @@ def logout_user(request):
 
 def forgot_password(request):
     if request.method == 'POST':
-        user_name = request.POST.get('user_name')
+        user_name = request.POST.get('email')
         user = User.objects.filter(Q(user_name=user_name)|Q(email=user_name)).first()
         print(user)
         if not user:
@@ -107,11 +124,11 @@ def forgot_password(request):
             messages.success(request,'Email sent')
         return HttpResponseRedirect(reverse('login'))
 
-    return render(request)
+    return render(request,'salte/user/password_reset.html')
 
-def reset_password(request):
+# def reset_password(request):
 
-    return render(request)
+#     return render(request)
 
 def face_validation(request):
     image1 = cv2.imread(os.path.join(STATIC_DIR,f"salte/images/kunle2.jpg"))
