@@ -94,7 +94,7 @@ def login_with_password(request):
                 return HttpResponseRedirect(reverse('index'))
             else:
                 messages.error(request,"Invalid username or password.")
-                return HttpResponseRedirect(reverse('login'))
+                return HttpResponseRedirect(reverse('password_login'))
         else:
             for error in list(form.errors.values()):
                 messages.error(request,error)
@@ -112,17 +112,18 @@ def logout_user(request):
 def forgot_password(request):
     if request.method == 'POST':
         user_name = request.POST.get('email')
-        user = User.objects.filter(Q(user_name=user_name)|Q(email=user_name)).first()
+        user = User.objects.filter(Q(username=user_name)|Q(email=user_name)).first()
         print(user)
+        print('user_name',user.username)
         if not user:
             messages.error(request,'No User Found')
-            return HttpResponseRedirect(reverse('login'))
+            return HttpResponseRedirect(reverse('password_login'))
         # token = str(uuid.uuid4())
         token = default_token_generator.make_token(user)
         value = send_forgot_password_email(user,token)
         if value:
             messages.success(request,'Email sent')
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('password_login'))
 
     return render(request,'salte/user/password_reset.html')
 

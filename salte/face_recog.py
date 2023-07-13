@@ -57,8 +57,8 @@ def send_forgot_password_email(user,token):
         'domain':'127.0.0.1:8000',
         'uid':urlsafe_base64_encode(force_bytes(user.pk)),
         'token': token,
-        'protocol':'http'
-
+        'protocol':'http',
+        'user': user,
     }
     email = render_to_string(email_template_name,parameters,)
     # send_mail(subject,message,email_from,recipient_list)
