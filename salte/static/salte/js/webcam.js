@@ -1,12 +1,13 @@
 "use strict";
-var video = document.getElementById('video');
-var canvas = document.getElementById('canvas');
+let video = document.getElementById('video');
+let canvas = document.getElementById('canvas');
 var videoStream = null;
 var preLog = document.getElementById('preLog');
 let photo = null
 let streaming = false;
 const width = 320; // We will scale the photo width to this
 let height = 0
+
 
 function log(text)
 {

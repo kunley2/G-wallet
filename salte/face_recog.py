@@ -11,6 +11,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes,force_str 
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.template.loader import render_to_string
+import random
 
 
 
@@ -71,16 +72,18 @@ def activate_account_email(request,user,token):
     # message = f'Hello, click on the link to reset your password {token}'
     # email_from = settings.EMAIL_HOST_USER
     recipient_list = [user.email]
-    email_template_name = 'salte/user/reset_password.txt'
+    email_template_name = 'salte/user/activate_account.txt'
     parameters = {
         'email':user.email,
         'domain':get_current_site(request).domain,
         'uid':urlsafe_base64_encode(force_bytes(user.pk)),
         'token': token,
-        'protocol':'http' if request.is_secure() else 'https'
+        'protocol':'http',
+        # 'protocol':'http' if request.is_secure() else 'https',
+        'user': user
 
     }
-    email = render_to_string(email_template_name,parameters,)
+    email = render_to_string(email_template_name,parameters)
     # send_mail(subject,message,email_from,recipient_list)
     send_mail(subject,email,"",recipient_list)
     return True
@@ -89,3 +92,8 @@ def verify_email_token(uidb64):
     uid = force_str(urlsafe_base64_decode(uidb64))
     return uid
 
+
+def rand_no(N):
+    min = pow(10,N-1)
+    max = pow(10,N)
+    return random.randint(min,max)

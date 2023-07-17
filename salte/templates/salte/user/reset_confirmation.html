@@ -8,9 +8,11 @@
 {% block title %} {% endblock title %}
 
 {% block content %}
+<p>
+    Your password has been set. You may go ahead and <a href="{% url 'password_login' %}">sign in</a> now.
+</p>
 
 {% endblock content %}
-
 
 {% block scripts %}
 <script src="https://cdn.tailwindcss.com"></script>

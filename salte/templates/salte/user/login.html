@@ -15,25 +15,36 @@
             <div class="row">
                 <div class="col-md-6 side-image"></div>
             </div>
-            <form class="col-md-6 right">
+            <form class="col-md-6 right" method="post">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="text-center alert alert-primary alert-dismissable fade show" role="alert">
+                            <strong {% if message.tags%} class="{{message.tags}}" {% endif %}>{{message}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                </div>
+                {% csrf_token %}
                 <div class="input-box">
                     <header>Welcome back ! <br>Please Sign In to use the application</header>
                     <div class="input-field">
-                        <label for="email">Enter Email</label>
-                        <input type="text" class="input" name="user_name" id="email" required autocomplete ="off">
+                        <label for="username">Enter Email</label>
+                        <input type="text" class="input" name="username" id="username" required autocomplete ="off">
                     </div>
                     <div class="input-field">
                         <label for="password">Enter Password</label>
-                        <input type="password" name="password class="input" id="password" required autocomplete ="off">
+                        <input type="password" name="password" class="input" id="password" required autocomplete ="off">
                     </div>
                     <div class="input-field">
                         <input type="submit" class="submit text-white" value="Sign In">
                     </div>
                     <div class="sigin-form-footer">
                         <span>Don't have an account? <a href="#">Create one!</a></span>
+                    </div>
                 </div>
-                   
-                    
+                                      
             </form>
         </div>
         
