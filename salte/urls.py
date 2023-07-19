@@ -18,4 +18,6 @@ urlpatterns = [
     path('account/', views.register_account,name='create_account'),
     path('activate-email/', views.activate_email,name='activate_email'),
     path('face/', views.face_validation,name='register'),
+    #
+    path('ajax_face_login',views.ajax_login_face,name='ajax-login'),
 ]

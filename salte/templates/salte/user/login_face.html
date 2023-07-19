@@ -122,6 +122,11 @@
             const width = 320;
             let streaming = false
             console.log('email',email)
+            console.log('email',email.length)
+            console.log('csrf',$('input[name=csrfmiddlewaretoken]').val())
+            if (email === ""){
+                console.log('in the if statement')
+            }
             // Get the canvas and obtain a context for
             // drawing in it
             // context = canvas.getContext('2d');
@@ -130,13 +135,18 @@
             console.log('data',image)
             $.ajax({
                 type: 'POST',
+                url: "{% url 'ajax-login' %}",
                 data: {
                     'image':image,
                     'email':email,
-                    'csrf_token':$('input[name=csrfmiddlewaretoken]').val(),
+                    'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
                 },
-                // success: ,
-                // error:
+                success: (response)=>{
+                    console.log('response',response)
+                },
+                error: (error)=>{
+                    console.log("error",error)
+                }
             })
         });
     })

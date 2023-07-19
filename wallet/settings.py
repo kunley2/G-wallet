@@ -126,6 +126,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# AUTHENTICATION_BACKENDS = ['salte.backends.EmailBackend']
+
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587

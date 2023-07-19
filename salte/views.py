@@ -188,7 +188,9 @@ def ajax_login_face(request):
      
     is_ajax = request.headers.get('X-Requested-With') == "XMLHttpRequest"
     if is_ajax:
+        print('request',request.POST)
         email = request.POST.get('email')
+        print(email)
         try:
             user = Account.objects.get(user__email=email)
         except:
