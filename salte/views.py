@@ -1,11 +1,12 @@
 from django.shortcuts import render,HttpResponseRedirect
-from .face_recog import *
+from .helper import *
 import numpy as np
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.files.temp import NamedTemporaryFile
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.forms import AuthenticationForm
@@ -65,6 +66,7 @@ def activate_email(request):
 
 def activate_account(request,uidb64,token):
     id = verify_email_token(uidb64)
+    print(id)
     try:
         user = User.objects.get(pk=id)
     except:
@@ -74,20 +76,25 @@ def activate_account(request,uidb64,token):
         user.is_active = True
         user.save()
         messages.success(request,'Email successfully verified')
-        return HttpResponseRedirect(reverse("password_login"))
+        return HttpResponseRedirect(reverse("create_account"))
     else:
         messages.error(request,'Unable to verify user')
         print('in else')
         return HttpResponseRedirect(reverse("index"))
     return HttpResponseRedirect(reverse('create_account'))
 
-
+@login_required()
 def register_account(request):
     
     if request.method == "POST":
+        print('request',request.POST)
         image_path = request.POST["photo"]  # src is the name of input attribute in your html file, this src value is set in javascript code
-        print(request.user)
-
+        phone_number = request.POST["phone_number"]
+        date_of_birth = request.POST["date_of_birth"]
+        passcode = request.POST["passcode"]
+        account_name = request.POST["account_name"]
+        print('user request',request.user)
+        print('first_name',request.user.first_name)
         rand_num = int(str(20) + str(rand_no(8)))
         print(rand_num)
         image = NamedTemporaryFile()
@@ -95,14 +102,19 @@ def register_account(request):
         image.flush()
         image = File(image)
         name = str(image.name).split('\\')[-1]
-        name = 'kunle.png'  # store image in jpeg format
+        name = f'{request.user.first_name}.png'  # store image in jpeg format
         image.name = name
-        account = Account.objects.create(photo=image)
-        account.save()
-    # form = CreateAccountForm()
-    # context = {'form':form}
+        account = Account.objects.create(photo=image,user=request.user,phone_number=phone_number,
+                                         date_of_birth=date_of_birth,passcode=passcode,account_number=rand_num,
+                                         account_name=account_name)
+        if account.save():
+            messages.success(request,'Account succesfully created')
 
-    return render(request,'salte/face_recog.html')
+
+    form = CreateAccountForm()
+    context = {'form':form}
+
+    return render(request,'salte/account/create_account.html',context)
 
 def login_with_password(request):
     if request.method == 'POST':

@@ -29,11 +29,8 @@
 
 #buttonStart {
   display: block;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  bottom: 20px;
-  background-color: rgba(0, 150, 0, 0.5);
+  /* bottom: 20px; */
+  /* background-color: rgba(0, 150, 0, 0.5); */
   border: 1px solid rgba(255, 255, 255, 0.7);
   box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.2);
   font-size: 14px;

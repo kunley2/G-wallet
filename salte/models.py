@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
 import uuid
@@ -7,8 +7,9 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.safestring import mark_safe
 
 
+User = get_user_model()
 
-
+User._meta.get_field('email')._unique = True
 # Create your models here.
 class Account(models.Model):
     id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
@@ -18,7 +19,7 @@ class Account(models.Model):
     account_number = models.CharField(_("account number"), max_length=100,unique=True)
     phone_number = models.CharField(_("phone number"), max_length=15,unique=True)
     date_of_birth = models.DateField('date of birth')
-    passcode = models.IntegerField('pass_code',max_length=6)
+    passcode = models.IntegerField('pass_code')
     photo = models.ImageField(upload_to='images/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
