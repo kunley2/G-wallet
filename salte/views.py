@@ -209,3 +209,8 @@ def ajax_login_face(request):
             return JsonResponse({'success':False,'message':'User Not registered'})
         print(user)
         return JsonResponse({'success':False})
+    
+    
+    
+def faqs(request):
+    return render(request, 'salte/faqs.html')

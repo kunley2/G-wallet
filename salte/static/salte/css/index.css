@@ -103,22 +103,30 @@ nav ul li a {
   font-weight: 200;
 }
 
-.submit{
+.signin {
   border-radius: 25px;
   padding: 10px 20px;
+  text-decoration: none;
   border: 2px solid white;
   cursor: pointer;
   transition: .4s;
   background: transparent;
-  color: white;
-  font-weight: 200;
   margin-left: 18px;
   margin-right: 28px;
 }
 
-.submit:hover {
-  background: white;
-  color: #9D50BB;
+.signin a{
+  color: white;
+  font-weight: 200;
+  text-decoration: none;
+}
+
+.signin:hover {
+  background: white; 
+  
+}
+.signin:hover a {
+  color: #9D50BB; 
   font-weight: 200;
 }
 
@@ -126,7 +134,7 @@ nav ul li a {
   .logo {
     margin-left: 25px;
   }
-  .submit {
+  .signin  {
     margin-right: 12px;
   }
 }
@@ -139,7 +147,7 @@ nav ul li a {
   .logo {
     margin-left: 25px;
   }
-  .submit {
+  .signin  {
     position: fixed;
     bottom: 20px;  
     left: 45%;
