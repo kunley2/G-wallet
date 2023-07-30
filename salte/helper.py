@@ -12,6 +12,7 @@ from django.utils.encoding import force_bytes,force_str
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.template.loader import render_to_string
 import random
+import base64
 
 
 
@@ -27,7 +28,7 @@ def get_face_encoding(image):
     
     """ this is used to get the face encoding and names for the different images placed in a folder with the faces name as folder name"""
     encoding = []
-    # image = cv2.resize(image,(700,700))
+    image = cv2.resize(image,(800,700))
     rgb = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
     gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
     rect = face_capture(rgb,0)
@@ -97,3 +98,10 @@ def rand_no(N):
     min = pow(10,N-1)
     max = pow(10,N)
     return random.randint(min,max)
+
+
+def read_b64_image(uri):
+    encoded_data = uri.split(',')[1]
+    np_array = np.frombuffer(base64.b64decode(encoded_data),np.uint8)
+    img = cv2.imdecode(np_array,cv2.IMREAD_COLOR)
+    return img

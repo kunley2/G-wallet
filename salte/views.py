@@ -102,7 +102,7 @@ def register_account(request):
         image.flush()
         image = File(image)
         name = str(image.name).split('\\')[-1]
-        name = f'{request.user.first_name}.png'  # store image in jpeg format
+        name = f'{request.user.first_name}.png'  # store image in png format
         image.name = name
         account = Account.objects.create(photo=image,user=request.user,phone_number=phone_number,
                                          date_of_birth=date_of_birth,passcode=passcode,account_number=rand_num,
@@ -200,12 +200,24 @@ def ajax_login_face(request):
      
     is_ajax = request.headers.get('X-Requested-With') == "XMLHttpRequest"
     if is_ajax:
-        print('request',request.POST)
+        # print('request',request.POST)
         email = request.POST.get('email')
-        print(email)
+        query_image = request.POST.get('image')
         try:
             user = Account.objects.get(user__email=email)
         except:
             return JsonResponse({'success':False,'message':'User Not registered'})
-        print(user)
-        return JsonResponse({'success':False})
+        user_image = user.photo
+        user_image = cv2.imread(os.path.join(MEDIA_DIR,str(user.photo)))
+        query_image = read_b64_image(query_image)
+        cv2.imwrite(os.path.join(STATIC_DIR,'salte/images/color.jpg'), query_image )
+        cv2.imshow('',query_image)
+        cv2.waitKey(1)
+        # cv2.D
+        encoded_user = get_face_encoding(user_image)
+        encoded_query = get_face_encoding(query_image)
+        print('encoded user',encoded_user)
+        print('encoded query',encoded_query)
+        if face_verification(encoded_user,encoded_query):
+            return JsonResponse({'success':True})
+        return JsonResponse({'success':False,'message':'Please try again'})

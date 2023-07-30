@@ -75,7 +75,13 @@ function gotStream(stream)
 	if (myButton) myButton.disabled = true;
 	videoStream = stream;
 	navigator.mediaDevices
-      .getUserMedia({ video: true, audio: false })
+      .getUserMedia({ 
+        video: {
+        width: {ideal: 1280},
+        height: {ideal: 720}
+        },
+        audio: false 
+        })
       .then((stream) => {
         video.srcObject = stream;
         video.play();
