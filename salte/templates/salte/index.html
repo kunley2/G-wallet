@@ -11,7 +11,7 @@
     
     {% endblock scripts %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Welcome{% endblock title %} </title>
+    <title>{% block title %}Salte - {% endblock title %} </title>
     {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "salte/css/index.css" %}">
 
@@ -30,10 +30,10 @@
       <nav>
         <div class="logo">Salte</div>
         <ul>
-          <li><a href="#">FAQ</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="{% url 'salte:faqs' %}">FAQ</a></li>
+          <li><a href="mailto:usesaltewallet@gmail.com">Contact</a></li>
           
-          <input type="submit" class="submit" value="Sign In">
+          <button class="signin"><a href="{% url 'salte:password_login' %}">Sign In</a></button>
         
         </ul>
       </nav>

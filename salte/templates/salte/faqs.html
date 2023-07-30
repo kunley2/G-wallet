@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{% static 'salte/js/faqs.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <title>{% block title %}Salte - {% endblock title %}</title>
+    {% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static "salte/css/faqs.css" %}">
+    {% endblock css %}
+</head>
+<body>
+  {% block content %}
+  <h2 class="heading">Questions</h2>
+  <h2 class="heading">about Salte</h2>    
+    <div id="wrapper">
+      <div id="content">
+        <div class="spacer"></div>
+        <div class="accordions">
+          <div class="accordion">
+            <div class="title">
+              What is Salte ?
+            </div>
+            <div class="text">
+              Salte is a cutting-edge facial recognition payment app that allows you to make secure and convenient transactions using your facial biometrics.
+            </div>
+          </div>
+          <div class="accordion">
+            <div class="title"> How does Salte work ?</div>
+            <div class="text">
+              Salte uses advanced facial recognition technology to securely capture and analyze your unique facial features. When making a payment, your face is scanned to authorize the transaction, ensuring a seamless and safe experience.
+            </div>
+          </div>
+          <div class="accordion">
+            <div class="title">Is Salte secure ?</div>
+            <div class="text">
+              Yes, Salte prioritizes security above all else. Our app uses encrypted data transmission and facial recognition algorithms to protect your personal information and prevent unauthorized access.
+            </div>
+          </div>
+          <div class="accordion">
+            <div class="title">What devices are compatible with Salte ?</div>
+            <div class="text">Salte is compatible with most modern smartphones and tablets that have a front-facing camera and meet our minimum system requirements. Please check our website for the full list of supported devices.</div>
+          </div>
+          <div class="accordion">
+            <div class="title">Can someone use a photo of me to make payment ?</div>
+            <div class="text">Rest assured, Salte incorporates robust liveliness detection technology to prevent the use of photos for unauthorized payments.Our facial recognition system is designed to differentiate between live, 3d facial features and static images or videos.
+            When making a payment, Salte actively verifies the presence of liveliness cues, such as subtle movements and depth, to ensure that the face being scanned is genuinely live and not a mere photo or video.</div>
+          </div>
+          <div class="accordion">
+            <div class="title">Does Salte store user's facial biometric data ?</div>
+            <div class="text">Our system converts your facial features into a unique mathematical representation called a hash. This process is irreversible, meaning that the original facial image cannot be reconstructed from the stored data.</div>
+          </div>
+        </div>
+        <div class="spacer"></div>
+      </div>
+    </div>    
+
+  {% endblock content %}
+</body>
+</html>

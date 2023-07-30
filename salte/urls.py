@@ -4,10 +4,11 @@ from django.contrib.auth import views as auth_views
 
 
 from . import views
-
+app_name = 'salte'
 urlpatterns = [
     path('', views.index, name='index'),
     path('signup/', views.register_user,name='user'),
+    path('faqs/', views.faqs, name='faqs'),
     path('activate/<uidb64>/<token>', views.activate_account,name='activate_account'),
     path('login/', views.login_with_password,name='password_login'),
     path('face_login/', views.login_with_face,name='face_login'),
