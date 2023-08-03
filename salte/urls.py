@@ -7,7 +7,7 @@ from . import views
 app_name = 'salte'
 urlpatterns = [
     path('', views.index, name='index'),
-    path('signup/', views.register_user,name='user'),
+    path('signup/', views.register_user,name='register'),
     path('faqs/', views.faqs, name='faqs'),
     path('activate/<uidb64>/<token>', views.activate_account,name='activate_account'),
     path('login/', views.login_with_password,name='password_login'),
@@ -20,5 +20,5 @@ urlpatterns = [
     path('activate-email/', views.activate_email,name='activate_email'),
     path('face/', views.face_validation,name='register'),
     # AJAX
-    path('ajax_face_login',views.ajax_login_face,name='ajax-login'),
+    path('ajax_face_login/',views.ajax_login_face,name='ajax-login'),
 ]

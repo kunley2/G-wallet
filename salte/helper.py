@@ -28,10 +28,10 @@ def get_face_encoding(image):
     
     """ this is used to get the face encoding and names for the different images placed in a folder with the faces name as folder name"""
     encoding = []
-    image = cv2.resize(image,(800,700))
+    # image = cv2.resize(image,(800,700))
     rgb = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
     gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
-    rect = face_capture(rgb,0)
+    rect = face_capture(rgb,2)
     print('rect',list(rect))
     if len(rect) > 1:
         raise ValidationError('More Than One Face in the Camera')

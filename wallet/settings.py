@@ -128,7 +128,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# AUTHENTICATION_BACKENDS = ['salte.backends.EmailBackend']
+AUTHENTICATION_BACKENDS = ['salte.backends.EmailBackend']
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only

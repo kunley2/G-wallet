@@ -12,13 +12,13 @@
 <section class="bg-white dark:bg-gray-900 min-h-screen">
     <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
         
-        <ol class="flex items-center my-4 mb-10  w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
+        <ol class="flex items-center my-1 mb-10  w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
             <li class="flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
                 <span class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
                     <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                     </svg>
-                    Personal <span class="hidden sm:inline-flex sm:ml-2">Info</span>
+                    Email <span class="hidden sm:inline-flex sm:ml-2">Verification</span>
                 </span>
             </li>
             <li class="flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
@@ -38,9 +38,17 @@
             <form method="post" enctype='multipart/form-data'>
                 {% csrf_token %}
                 <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
-                    <div class="sm:col-span-2">
+                    <!-- <div class="sm:col-span-2">
                         <label for="id_account_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Account Name</label>
                         {{form.account_name}}
+                    </div> -->
+                    <div class="w-full">
+                        <label for="id_phone_number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
+                        {{form.first_name}}
+                    </div>
+                    <div class="w-full">
+                        <label for="id_phone_number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
+                        {{form.last_name}}
                     </div>
                     <div class="w-full">
                         <label for="id_phone_number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
@@ -50,29 +58,29 @@
                         <label for="id_date_of_birth" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Birth</label>
                         {{form.date_of_birth}}
                     </div>
-                    <div class="w-full">
+                    <!-- <div class="w-full">
                         <label for="id_passcode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Passcode</label>
                         {{form.passcode}}
-                    </div>
-                    <div>
+                    </div> -->
+                    <div >
                         <label for="id_photo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Picture</label>
                         <input type="text" name="photo" id="id_photo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Image" readonly required="">
                     </div> 
-                    <!-- new form input  -->
-                    <div class="flex flex-col space-y-16">
+                    <!-- new form input  space-y-1 (space between the button)--> 
+                    <div class="flex flex-col col-start-1 "> 
                         <label for="id_passcode2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Passcode</label>
                         <div class="flex flex-row items-center justify-between mx-auto w-full max-w-xs">
-                          <div class="w-16 h-16 ">
-                            <input class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 border border-gray-200 text-lg bg-white  focus:ring-1 ring-blue-700" type="text" inputmode="numeric" pattern="[0-9.]+" name="" id="input1" maxlength="1" onkeyup="gotoNextField(input1,input2)">
+                          <div class="w-14 h-14 ">
+                            <input class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 border border-gray-200 text-lg bg-white  focus:ring-1 ring-blue-700" type="text" inputmode="numeric" pattern="[0-9.]+" name="pwd1" id="input1" maxlength="1" onkeyup="gotoNextField(input1,input2)">
                           </div>
-                          <div class="w-16 h-16 ">
-                            <input class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 border border-gray-200 text-lg bg-white focus:ring-1 ring-blue-700" type="text" inputmode="numeric" name="" id="input2" maxlength="1" onkeyup="gotoNextField(input2,input3)">
+                          <div class="w-14 h-14 ">
+                            <input class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 border border-gray-200 text-lg bg-white focus:ring-1 ring-blue-700" type="text" inputmode="numeric" name="pwd2" id="input2" maxlength="1" onkeyup="gotoNextField(input2,input3)">
                           </div>
-                          <div class="w-16 h-16 ">
-                            <input class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 border border-gray-200 text-lg bg-white focus:ring-1 ring-blue-700" type="text" inputmode="numeric" name="" id="input3" maxlength="1" onkeyup="gotoNextField(input3,input4)">
+                          <div class="w-14 h-14 ">
+                            <input class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 border border-gray-200 text-lg bg-white focus:ring-1 ring-blue-700" type="text" inputmode="numeric" name="pwd3" id="input3" maxlength="1" onkeyup="gotoNextField(input3,input4)">
                           </div>
-                          <div class="w-16 h-16 ">
-                            <input class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 border border-gray-200 text-lg bg-white focus:ring-1 ring-blue-700" type="text" inputmode="numeric" name="" id="input4" maxlength="1">
+                          <div class="w-14 h-14 ">
+                            <input class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 border border-gray-200 text-lg bg-white focus:ring-1 ring-blue-700" type="text" inputmode="numeric" name="pwd4" id="input4" maxlength="1">
                           </div>
                         </div>            
                     </div> 

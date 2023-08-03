@@ -1,4 +1,4 @@
-from django.shortcuts import render,HttpResponseRedirect
+from django.shortcuts import render,HttpResponseRedirect,redirect
 from .helper import *
 import numpy as np
 from django.conf import settings
@@ -40,7 +40,7 @@ def register_user(request):
             print(token)
             value = activate_account_email(request,f,token)
             messages.success(request,'account created successfully')
-            return HttpResponseRedirect(reverse('index'))
+            return HttpResponseRedirect(reverse('salte:index'))
         else:
             for error in list(form.errors.values()):
                 messages.error(request,error)
@@ -57,7 +57,7 @@ def activate_email(request):
             user = User.objects.get(Q(username=user_name)|Q(email=user_name))
         except:
             messages.error(request,"An Account with the information doesn't exist")
-            return HttpResponseRedirect(reverse("activate_email"))
+            return HttpResponseRedirect(reverse("salte:activate_email"))
         token = default_token_generator.make_token(user)
         value = activate_account_email(request,user,token)
         messages.success(request,'Please check your email to activate your account')
@@ -76,39 +76,44 @@ def activate_account(request,uidb64,token):
         user.is_active = True
         user.save()
         messages.success(request,'Email successfully verified')
-        return HttpResponseRedirect(reverse("create_account"))
+        return HttpResponseRedirect(reverse("salte:create_account"))
     else:
-        messages.error(request,'Unable to verify user')
+        messages.error(request,'Unable to verify user, Please Try again')
         print('in else')
-        return HttpResponseRedirect(reverse("index"))
-    return HttpResponseRedirect(reverse('create_account'))
+        return HttpResponseRedirect(reverse("salte:activate_email"))
+    # return HttpResponseRedirect(reverse('salte:create_account'))
 
 @login_required()
 def register_account(request):
     
     if request.method == "POST":
-        print('request',request.POST)
         image_path = request.POST["photo"]  # src is the name of input attribute in your html file, this src value is set in javascript code
         phone_number = request.POST["phone_number"]
         date_of_birth = request.POST["date_of_birth"]
-        passcode = request.POST["passcode"]
-        account_name = request.POST["account_name"]
-        print('user request',request.user)
-        print('first_name',request.user.first_name)
+        pwd1 = request.POST["pwd1"]
+        pwd2 = request.POST["pwd2"]
+        pwd3 = request.POST["pwd3"]
+        pwd4 = request.POST["pwd4"]
+
+        passcode = int(str(pwd1) + str(pwd2) + str(pwd3) + str(pwd4) )
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
+        account_name = first_name + last_name
         rand_num = int(str(20) + str(rand_no(8)))
-        print(rand_num)
         image = NamedTemporaryFile()
         image.write(urlopen(image_path).read())
         image.flush()
         image = File(image)
         name = str(image.name).split('\\')[-1]
-        name = f'{request.user.first_name}.png'  # store image in png format
+        name = f'{first_name}.png'  # store image in png format
         image.name = name
         account = Account.objects.create(photo=image,user=request.user,phone_number=phone_number,
                                          date_of_birth=date_of_birth,passcode=passcode,account_number=rand_num,
                                          account_name=account_name)
         if account.save():
             messages.success(request,'Account succesfully created')
+            return HttpResponseRedirect(reverse("salte:index"))
+
 
 
     form = CreateAccountForm()
@@ -119,45 +124,56 @@ def register_account(request):
 def login_with_password(request):
     if request.method == 'POST':
         username = request.POST.get('username')
+        next = request.POST.get('next')
         try:
             user2 = User.objects.get(Q(username=username)|Q(email=username))
-            print('user',user2)
+            print('user2 in search',user2)
         except:
             messages.error(request,'Invalid username or password.')
-            return HttpResponseRedirect(reverse('password_login'))
+            return HttpResponseRedirect(reverse('salte:password_login'))
         if user2.is_active != True and user2 != None:
-            return HttpResponseRedirect(reverse('activate_email'))
+            return HttpResponseRedirect(reverse('salte:activate_email'))
         form = AuthenticationForm(request=request,data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
+            print("user in the authenticate",user)
             # user = authenticate(email=username, password=password)
-            if user is not None:
+            print('bool',bool(next))
+            if user is not None and bool(next) == False:
                 login(request,user)
+                print('not in the next')
                 messages.success(request, f"you are now logged in as {username}")
-                return HttpResponseRedirect(reverse('index'))
+                return HttpResponseRedirect(reverse('salte:index'))
+            elif user is not None and bool(next) == True:
+                login(request,user)
+                print('next',next)
+                messages.success(request, f"you are now logged in as {username}")
+                print('in the next none')
+                return HttpResponseRedirect(f'{next}')
             else:
                 messages.error(request,"Invalid username or password.")
-                return HttpResponseRedirect(reverse('password_login'))
+                return HttpResponseRedirect(reverse('salte:password_login'))
         else:
             for error in list(form.errors.values()):
                 messages.error(request,error)
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('index'))
+        return HttpResponseRedirect(reverse('salte:index'))
     form = AuthenticationForm()
     context = {'form':form}
     return render(request,'salte/user/login.html',context)
 
 
 def login_with_face(request):
-
+    # if request.user.is_authenticated:
+    #     return HttpResponseRedirect(reverse('salte:index'))
     return render(request,'salte/user/login_face.html')
 
 def logout_user(request):
     logout(request)
     messages.success(request,'You have successfully logout')
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("salte:index"))
 
 def forgot_password(request):
     if request.method == 'POST':
@@ -167,13 +183,13 @@ def forgot_password(request):
         print('user_name',user.username)
         if not user:
             messages.error(request,'No User Found')
-            return HttpResponseRedirect(reverse('password_login'))
+            return HttpResponseRedirect(reverse('salte:password_login'))
         # token = str(uuid.uuid4())
         token = default_token_generator.make_token(user)
         value = send_forgot_password_email(user,token)
         if value:
             messages.success(request,'Email sent')
-        return HttpResponseRedirect(reverse('password_login'))
+        return HttpResponseRedirect(reverse('salte:password_login'))
 
     return render(request,'salte/user/password_reset.html')
 
@@ -193,6 +209,10 @@ def face_validation(request):
     return render(request,'salte/face_recog.html')
 
 
+def faqs(request):
+    return render(request, 'salte/faqs.html')
+
+
 
 ###  AJAX REQUEST
 
@@ -203,21 +223,32 @@ def ajax_login_face(request):
         # print('request',request.POST)
         email = request.POST.get('email')
         query_image = request.POST.get('image')
+        print('user account',Account.objects.filter(Q(user__email=email)|Q(user__username=email)))
         try:
             user = Account.objects.get(user__email=email)
-        except:
+        except Exception as e:
+            print('error',e)
             return JsonResponse({'success':False,'message':'User Not registered'})
         user_image = user.photo
         user_image = cv2.imread(os.path.join(MEDIA_DIR,str(user.photo)))
+        # user_image = cv2.imread(os.path.join(STATIC_DIR,'salte/images/color.jpg'))
         query_image = read_b64_image(query_image)
-        cv2.imwrite(os.path.join(STATIC_DIR,'salte/images/color.jpg'), query_image )
-        cv2.imshow('',query_image)
-        cv2.waitKey(1)
-        # cv2.D
+        print('query size',query_image.size)
+        print('user size',user_image.size)
+        # cv2.imwrite(os.path.join(STATIC_DIR,'salte/images/color23.jpg'), query_image )
+        # cv2.imshow('',query_image)
+        # cv2.waitKey(1)
         encoded_user = get_face_encoding(user_image)
         encoded_query = get_face_encoding(query_image)
         print('encoded user',encoded_user)
         print('encoded query',encoded_query)
-        if face_verification(encoded_user,encoded_query):
-            return JsonResponse({'success':True})
+        try:
+            if face_verification(encoded_user,encoded_query):
+                print('in the ',User.objects.get(email=email).username)
+                logged_user = User.objects.get(email=email)
+                # log_user = authenticate(username=)
+                # login(request,logged_user.username)
+                return JsonResponse({'success':True})
+        except Exception as e:
+            print('error',e)
         return JsonResponse({'success':False,'message':'Please try again'})

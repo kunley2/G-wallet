@@ -29,6 +29,7 @@
                 {% csrf_token %}
                 <div class="input-box">
                     <header>Welcome back ! <br>Please Sign In to use the application</header>
+                    <input type="hidden" name="next" value="{{request.GET.next}}">
                     <div class="input-field">
                         <label for="username">Enter Email</label>
                         <input type="text" class="input" name="username" id="username" required autocomplete ="off">

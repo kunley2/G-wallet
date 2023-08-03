@@ -15,8 +15,9 @@ class Account(models.Model):
     id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
     user = models.OneToOneField(User,on_delete=models.SET_NULL,null=True)
     balance = models.DecimalField(_("balance"), max_digits=100, decimal_places=2, default=0)
-    # first_name = models.CharField(_("First name"), max_length=250)
-    # last_name = models.CharField(_("Last name"), max_length=250)
+    first_name = models.CharField(_("First name"), max_length=250)
+    last_name = models.CharField(_("Last name"), max_length=250)
+    # address
     account_name = models.CharField(_("account name"), max_length=250)
     account_number = models.CharField(_("account number"), max_length=100,unique=True)
     phone_number = models.CharField(_("phone number"), max_length=15,unique=True)

@@ -2,7 +2,7 @@
 Hello  {{user.username }},
 
 Thank you for signing up on Salte. After activating your account, you will be able to use all our services. Click on the link below to activate your account
-{{ protocol}}://{{ domain }}{% url 'activate_account' uidb64=uid token=token %}.
+{{ protocol}}://{{ domain }}{% url 'salte:activate_account' uidb64=uid token=token %}.
 
 If you did not make this request, simply ignore this email.
 Sincerely,
