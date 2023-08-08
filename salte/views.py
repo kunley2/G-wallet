@@ -11,6 +11,7 @@ from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
+from django.contrib.auth.hashers import check_password,make_password
 from django.urls import reverse
 from django.http import JsonResponse
 from django.db.models import Q,Sum,Count
@@ -96,6 +97,8 @@ def register_account(request):
         pwd4 = request.POST["pwd4"]
 
         passcode = int(str(pwd1) + str(pwd2) + str(pwd3) + str(pwd4) )
+        encrypted_password = make_password(passcode)
+        print(encrypted_password)
         first_name = request.POST["first_name"]
         last_name = request.POST["last_name"]
         account_name = first_name + last_name
@@ -166,8 +169,8 @@ def login_with_password(request):
 
 
 def login_with_face(request):
-    # if request.user.is_authenticated:
-    #     return HttpResponseRedirect(reverse('salte:index'))
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('salte:index'))
     return render(request,'salte/user/login_face.html')
 
 def logout_user(request):
@@ -233,8 +236,6 @@ def ajax_login_face(request):
         user_image = cv2.imread(os.path.join(MEDIA_DIR,str(user.photo)))
         # user_image = cv2.imread(os.path.join(STATIC_DIR,'salte/images/color.jpg'))
         query_image = read_b64_image(query_image)
-        print('query size',query_image.size)
-        print('user size',user_image.size)
         # cv2.imwrite(os.path.join(STATIC_DIR,'salte/images/color23.jpg'), query_image )
         # cv2.imshow('',query_image)
         # cv2.waitKey(1)
@@ -244,10 +245,10 @@ def ajax_login_face(request):
         print('encoded query',encoded_query)
         try:
             if face_verification(encoded_user,encoded_query):
-                print('in the ',User.objects.get(email=email).username)
-                logged_user = User.objects.get(email=email)
-                # log_user = authenticate(username=)
-                # login(request,logged_user.username)
+                # logged_user = User.objects.get(email=email)
+                logged_user = authenticate(username=email,face_id=True)
+                print(logged_user)
+                login(request,logged_user)
                 return JsonResponse({'success':True})
         except Exception as e:
             print('error',e)
